@@ -1,0 +1,265 @@
+<!-- CHANGE-PASSWORD.HTML + FORM-HISTORY.HTML + FORM-REVIEW.HTML -->
+
+<!-- FILE 1: change-password.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Change Password - Attles Law Group</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --primary-navy: #1a3d6d; --primary-red: #c41e3a; --primary-gold: #d4af37; --light-bg: #f5f7fa; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI'; background: linear-gradient(135deg, var(--light-bg) 0%, #e8eef7 100%); }
+        .navbar { background: linear-gradient(135deg, var(--primary-navy) 0%, #1a2e4a 100%); padding: 1rem; border-bottom: 3px solid var(--primary-gold); }
+        .nav-content { max-width: 800px; margin: 0 auto; display: flex; justify-content: space-between; padding: 0 1rem; }
+        .nav-title { color: white; font-size: 1.3rem; font-weight: 700; }
+        .container { max-width: 800px; margin: 0 auto; padding: 2rem 1rem; }
+        .card { background: white; padding: 2rem; border-radius: 1rem; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-left: 5px solid var(--primary-gold); }
+        .card h2 { color: var(--primary-navy); margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 2px solid var(--primary-gold); }
+        .form-group { margin-bottom: 1.5rem; display: flex; flex-direction: column; }
+        .form-group label { color: var(--primary-navy); font-weight: 600; margin-bottom: 0.5rem; }
+        .form-group input { padding: 0.75rem; border: 2px solid #e2e8f0; border-radius: 0.5rem; font-family: inherit; }
+        .form-group input:focus { outline: none; border-color: var(--primary-gold); }
+        .form-actions { display: flex; gap: 1rem; margin-top: 2rem; }
+        .btn { padding: 0.75rem 1.5rem; border: none; border-radius: 0.5rem; font-weight: 700; cursor: pointer; }
+        .btn-primary { background: linear-gradient(135deg, var(--primary-navy) 0%, var(--primary-red) 100%); color: white; flex: 1; }
+        .btn-secondary { background: #e2e8f0; color: var(--primary-navy); flex: 1; }
+        .btn:hover { transform: translateY(-2px); }
+        .alert { padding: 1rem; border-radius: 0.5rem; margin-bottom: 1rem; display: none; }
+        .alert-success { background: #d1fae5; color: #065f46; border-left: 4px solid #10b981; }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+            <h1 class="nav-title">Change Password</h1>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="card">
+            <h2 data-i18n="changePassword.title">Change Your Password</h2>
+            <div id="alert" class="alert"></div>
+            <form id="passwordForm">
+                <div class="form-group">
+                    <label data-i18n="changePassword.current">Current Password</label>
+                    <input type="password" id="currentPassword" required>
+                </div>
+                <div class="form-group">
+                    <label data-i18n="changePassword.new">New Password</label>
+                    <input type="password" id="newPassword" required>
+                </div>
+                <div class="form-group">
+                    <label data-i18n="changePassword.confirm">Confirm Password</label>
+                    <input type="password" id="confirmPassword" required>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="window.location.href='profile.html'">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Update Password</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="/js/auth.js"></script>
+    <script>
+        document.getElementById('passwordForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const newPwd = document.getElementById('newPassword').value;
+            const confirmPwd = document.getElementById('confirmPassword').value;
+            if (newPwd !== confirmPwd) {
+                showAlert('Passwords do not match!', 'error');
+                return;
+            }
+            const token = localStorage.getItem('token') || localStorage.getItem('authToken');
+            try {
+                const response = await fetch('http://localhost:5000/api/user/change-password', {
+                    method: 'POST',
+                    headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        current_password: document.getElementById('currentPassword').value,
+                        new_password: newPwd
+                    })
+                });
+                if (response.ok) {
+                    showAlert('Password changed successfully!', 'success');
+                    setTimeout(() => window.location.href = 'profile.html', 2000);
+                }
+            } catch (error) {
+                showAlert('Error: ' + error.message, 'error');
+            }
+        });
+        function showAlert(msg, type) {
+            const alert = document.getElementById('alert');
+            alert.textContent = msg;
+            alert.className = `alert alert-${type}`;
+            alert.style.display = 'block';
+        }
+    </script>
+</body>
+</html>
+
+<!-- END FILE 1 -->
+
+---
+
+<!-- FILE 2: form-history.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form History - Attles Law Group</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --primary-navy: #1a3d6d; --primary-red: #c41e3a; --primary-gold: #d4af37; --light-bg: #f5f7fa; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI'; background: linear-gradient(135deg, var(--light-bg) 0%, #e8eef7 100%); }
+        .navbar { background: linear-gradient(135deg, var(--primary-navy) 0%, #1a2e4a 100%); padding: 1rem; border-bottom: 3px solid var(--primary-gold); }
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem 1rem; }
+        .table-container { background: white; border-radius: 1rem; box-shadow: 0 4px 15px rgba(0,0,0,0.1); overflow: hidden; }
+        table { width: 100%; border-collapse: collapse; }
+        th { background: linear-gradient(135deg, var(--primary-navy) 0%, var(--primary-red) 100%); color: white; padding: 1rem; text-align: left; font-weight: 700; }
+        td { padding: 1rem; border-bottom: 1px solid #e2e8f0; }
+        tr:hover { background: #f5f7fa; }
+        .badge { padding: 0.5rem 1rem; border-radius: 0.25rem; font-size: 0.9rem; font-weight: 600; }
+        .badge-success { background: #d1fae5; color: #065f46; }
+        .badge-pending { background: #fef3c7; color: #92400e; }
+        .btn { padding: 0.5rem 1rem; background: var(--primary-navy); color: white; border: none; border-radius: 0.25rem; cursor: pointer; text-decoration: none; }
+        .btn:hover { background: var(--primary-red); }
+        @media (max-width: 768px) { table { font-size: 0.9rem; } td, th { padding: 0.75rem; } }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div style="color: white; font-size: 1.3rem; font-weight: 700;">Form History</div>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="table-container">
+            <table id="historyTable">
+                <thead>
+                    <tr>
+                        <th data-i18n="history.form">Form</th>
+                        <th data-i18n="history.status">Status</th>
+                        <th data-i18n="history.submitted">Submitted</th>
+                        <th data-i18n="history.actions">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="historyBody">
+                    <tr><td colspan="4" style="text-align: center;">Loading...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script src="/js/auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const token = localStorage.getItem('token') || localStorage.getItem('authToken');
+            fetch('http://localhost:5000/api/user/forms/history', {
+                headers: { 'Authorization': `Bearer ${token}` }
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success && data.submissions) {
+                    document.getElementById('historyBody').innerHTML = data.submissions.map(form => `
+                        <tr>
+                            <td>${form.form_type}</td>
+                            <td><span class="badge badge-${form.status}">${form.status}</span></td>
+                            <td>${new Date(form.created_at).toLocaleDateString()}</td>
+                            <td>
+                                <a href="form-review.html?id=${form.id}" class="btn">View</a>
+                            </td>
+                        </tr>
+                    `).join('');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
+<!-- END FILE 2 -->
+
+---
+
+<!-- FILE 3: form-review.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Review - Attles Law Group</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --primary-navy: #1a3d6d; --primary-red: #c41e3a; --primary-gold: #d4af37; --light-bg: #f5f7fa; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI'; background: linear-gradient(135deg, var(--light-bg) 0%, #e8eef7 100%); }
+        .navbar { background: linear-gradient(135deg, var(--primary-navy) 0%, #1a2e4a 100%); padding: 1rem; border-bottom: 3px solid var(--primary-gold); }
+        .container { max-width: 1000px; margin: 0 auto; padding: 2rem 1rem; }
+        .card { background: white; padding: 2rem; border-radius: 1rem; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-bottom: 2rem; border-left: 5px solid var(--primary-gold); }
+        .card h2 { color: var(--primary-navy); margin-bottom: 1.5rem; }
+        .form-data { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+        .form-field { border-bottom: 1px solid #e2e8f0; padding-bottom: 1rem; }
+        .form-field label { color: #64748b; font-size: 0.9rem; }
+        .form-field value { color: var(--primary-navy); font-weight: 600; display: block; margin-top: 0.25rem; }
+        .actions { display: flex; gap: 1rem; }
+        .btn { padding: 0.75rem 1.5rem; border: none; border-radius: 0.5rem; font-weight: 700; cursor: pointer; }
+        .btn-primary { background: linear-gradient(135deg, var(--primary-navy) 0%, var(--primary-red) 100%); color: white; }
+        .btn-secondary { background: #e2e8f0; color: var(--primary-navy); }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div style="color: white; font-size: 1.3rem; font-weight: 700;">Form Review</div>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="card" id="reviewCard">
+            <p>Loading form data...</p>
+        </div>
+        <div class="actions">
+            <button class="btn btn-secondary" onclick="window.history.back()">Back</button>
+            <button class="btn btn-primary" onclick="downloadForm()"><i class="fas fa-download"></i> Download PDF</button>
+        </div>
+    </div>
+    <script src="/js/auth.js"></script>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const formId = urlParams.get('id');
+        const token = localStorage.getItem('token') || localStorage.getItem('authToken');
+
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch(`http://localhost:5000/api/user/forms/${formId}`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success && data.form) {
+                    const form = data.form;
+                    const html = `
+                        <h2>Form ${form.form_type}</h2>
+                        <div class="form-data">
+                            ${Object.entries(form.data || {}).map(([key, val]) => `
+                                <div class="form-field">
+                                    <label>${key}</label>
+                                    <value>${val}</value>
+                                </div>
+                            `).join('')}
+                        </div>
+                    `;
+                    document.getElementById('reviewCard').innerHTML = html;
+                }
+            });
+        });
+
+        function downloadForm() {
+            window.location.href = `http://localhost:5000/api/user/forms/${formId}/download?token=${token}`;
+        }
+    </script>
+</body>
+</html>
+
+<!-- END FILE 3 -->

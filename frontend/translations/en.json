@@ -1,0 +1,197 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About Us",
+    "services": "Services",
+    "help": "Help Center",
+    "contact": "Contact",
+    "login": "Login",
+    "getStarted": "Get Started"
+  },
+  "hero": {
+    "title": "Your Trusted Partner in",
+    "titleHighlight": "Immigration Success",
+    "description": "Navigate your immigration journey with confidence. Expert legal guidance for USCIS forms I-130, I-485, and all your immigration needs.",
+    "startApplication": "Start Your Application",
+    "learnMore": "Learn More",
+    "feature1": "USCIS Approved Forms",
+    "feature2": "Secure & Confidential",
+    "feature3": "24/7 Support"
+  },
+  "stats": {
+    "cases": "Cases Completed",
+    "success": "Success Rate %",
+    "experience": "Years Experience",
+    "rating": "Client Rating"
+  },
+  "services": {
+    "title": "Our Immigration Services",
+    "description": "Comprehensive legal solutions for all your immigration needs",
+    "i130Title": "Form I-130",
+    "i130Description": "Petition for Alien Relative. Start the family reunification process with our expert guidance.",
+    "i485Title": "Form I-485",
+    "i485Description": "Application to Register Permanent Residence. Complete your green card application with confidence.",
+    "consultTitle": "Consultation Services",
+    "consultDescription": "Need expert advice? Schedule a consultation with our experienced immigration attorneys.",
+    "feature1": "Step-by-step assistance",
+    "feature2": "Document preparation",
+    "feature3": "Review before submission",
+    "feature4": "Complete application support",
+    "feature5": "Status tracking",
+    "feature6": "Expert legal review",
+    "feature7": "Case evaluation",
+    "feature8": "Strategy planning",
+    "feature9": "Personalized guidance",
+    "getStarted": "Get Started",
+    "contactUs": "Contact Us",
+    "mostPopular": "Most Popular"
+  },
+  "whyChooseUs": {
+    "title": "Why Choose Attles Law Group",
+    "description": "Excellence in immigration law services",
+    "expert": "Expert Attorneys",
+    "expertDesc": "Licensed immigration lawyers with decades of combined experience",
+    "secure": "Secure Platform",
+    "secureDesc": "Bank-level encryption to protect your sensitive information",
+    "support": "24/7 Support",
+    "supportDesc": "Round-the-clock assistance whenever you need help",
+    "pricing": "Transparent Pricing",
+    "pricingDesc": "No hidden fees. Clear pricing for all our services",
+    "multilingual": "Multilingual Support",
+    "multilingualDesc": "Services available in 10+ languages",
+    "tracking": "Status Tracking",
+    "trackingDesc": "Track your application status in real-time"
+  },
+  "howItWorks": {
+    "title": "How It Works",
+    "description": "Simple steps to complete your immigration application",
+    "step1Title": "Create Account",
+    "step1Desc": "Register and set up your secure account in minutes",
+    "step2Title": "Choose Your Form",
+    "step2Desc": "Select the USCIS form you need to complete",
+    "step3Title": "Fill & Review",
+    "step3Desc": "Complete your application with our guided assistance",
+    "step4Title": "Submit & Track",
+    "step4Desc": "Download your completed form and track your case"
+  },
+  "cta": {
+    "title": "Ready to Start Your Immigration Journey?",
+    "description": "Join thousands of satisfied clients who trusted us with their immigration needs",
+    "createAccount": "Create Free Account",
+    "contactUs": "Contact Us"
+  },
+  "footer": {
+    "description": "Expert immigration legal services you can trust. Your path to the American dream starts here.",
+    "quickLinks": "Quick Links",
+    "about": "About Us",
+    "services": "Services",
+    "helpCenter": "Help Center",
+    "contact": "Contact",
+    "legal": "Legal",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "cookies": "Cookie Policy",
+    "disclaimer": "Disclaimer",
+    "contactInfo": "Contact Info",
+    "address": "123 Legal Ave, Washington, DC",
+    "phone": "+1 (800) ATTLES-LAW",
+    "email": "info@attleslawgroup.com",
+    "hours": "Mon-Fri: 9AM - 6PM EST",
+    "copyright": "© 2025 Attles Law Group. All rights reserved.",
+    "license": "Licensed to practice immigration law in all 50 states"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "success": "Success!",
+    "close": "Close",
+    "submit": "Submit",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "view": "View",
+    "search": "Search",
+    "filter": "Filter",
+    "clear": "Clear",
+    "apply": "Apply",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "yes": "Yes",
+    "no": "No"
+  },
+  
+  "auth": {
+    "login": {
+      "welcome": "Welcome Back",
+      "subtitle": "Sign in to access your immigration application dashboard",
+      "feature1": "Secure & Encrypted",
+      "feature2": "Track Application Status",
+      "feature3": "24/7 Access",
+      "title": "Sign In",
+      "description": "Enter your credentials to access your account",
+      "emailLabel": "Email Address",
+      "emailPlaceholder": "you@example.com",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "••••••••",
+      "rememberMe": "Remember me",
+      "forgotPassword": "Forgot Password?",
+      "signInButton": "Sign In",
+      "orDivider": "OR",
+      "noAccount": "Don't have an account?",
+      "registerLink": "Create Account",
+      "ssl": "SSL Encrypted",
+      "secure": "Secure Login",
+      "privacy": "Privacy Protected"
+    },
+    "footer": {
+      "company": "Attles Law Group",
+      "rights": "All rights reserved",
+      "privacy": "Privacy Policy",
+      "terms": "Terms of Service",
+      "contact": "Contact"
+    },
+    "createAccount": "Create Account",
+    "registerWelcome": "Join Attles Law Group",
+    "registerSubtitle": "Fill out the form to get started",
+    "register": {
+      "fullName": "Full Name",
+      "email": "Email Address",
+      "password": "Password",
+      "confirmPassword": "Confirm Password",
+      "terms": "I agree to the Terms of Service",
+      "registerButton": "Register",
+      "alreadyAccount": "Already have an account?",
+      "signInLink": "Sign In"
+    }
+  },
+  "verify": {
+  "title": "Verify Your Email",
+  "description": "Please enter the 6-digit code sent to your email address.",
+  "codeLabel": "Verification Code",
+  "codePlaceholder": "123456",
+  "verifyButton": "Verify Email",
+  "resendLink": "Resend Code"
+,
+  "admin": {
+    "nav": {
+      "overview": "Overview",
+      "users": "User Management",
+      "analytics": "Forms Statistics",
+      "logs": "System Logs",
+      "settings": "Settings"
+    },
+    "header": {
+      "title": "Dashboard Overview",
+      "logout": "Logout"
+    },
+    "stats": {
+      "total": "Total Submissions",
+      "approved": "Approved",
+      "pending": "Pending",
+      "rejected": "Rejected"
+    }
+  }
+}
+}

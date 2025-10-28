@@ -1,0 +1,298 @@
+<!-- PAYMENT.HTML - Stripe payment integration -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment - Attles Law Group</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://js.stripe.com/v3/"></script>
+    <style>
+        :root {
+            --primary-navy: #1a3d6d;
+            --primary-red: #c41e3a;
+            --primary-gold: #d4af37;
+            --light-bg: #f5f7fa;
+            --text-dark: #1a3d6d;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--light-bg) 0%, #e8eef7 100%);
+            color: var(--text-dark);
+        }
+        .navbar {
+            background: linear-gradient(135deg, var(--primary-navy) 0%, #1a2e4a 100%);
+            padding: 1rem;
+            box-shadow: 0 4px 15px rgba(26, 61, 109, 0.3);
+            border-bottom: 3px solid var(--primary-gold);
+        }
+        .nav-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 1rem;
+        }
+        .nav-title { color: white; font-size: 1.3rem; font-weight: 700; }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+        .payment-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+        .order-summary {
+            background: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 15px rgba(26, 61, 109, 0.1);
+            border-left: 5px solid var(--primary-gold);
+            height: fit-content;
+        }
+        .order-summary h2 {
+            color: var(--primary-navy);
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--primary-gold);
+        }
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .order-item-name { color: var(--text-dark); }
+        .order-item-price { color: var(--primary-red); font-weight: 700; }
+        .order-total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 2px solid var(--primary-gold);
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary-navy);
+        }
+        .payment-form {
+            background: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 15px rgba(26, 61, 109, 0.1);
+            border-left: 5px solid var(--primary-red);
+        }
+        .payment-form h2 {
+            color: var(--primary-navy);
+            margin-bottom: 1.5rem;
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+            display: flex;
+            flex-direction: column;
+        }
+        .form-group label {
+            color: var(--primary-navy);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+        .form-group input {
+            padding: 0.75rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 0.5rem;
+            font-size: 0.95rem;
+            font-family: inherit;
+            transition: all 0.3s ease;
+        }
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary-gold);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+        }
+        #card-element {
+            padding: 0.75rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .btn {
+            background: linear-gradient(135deg, var(--primary-navy) 0%, var(--primary-red) 100%);
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1rem;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(196, 30, 58, 0.3);
+        }
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .alert {
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+            display: none;
+        }
+        .alert-error {
+            background: #fee2e2;
+            color: #7f1d1d;
+            border-left: 4px solid #ef4444;
+        }
+        .alert-success {
+            background: #d1fae5;
+            color: #065f46;
+            border-left: 4px solid #10b981;
+        }
+        @media (max-width: 768px) {
+            .payment-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+            <h1 class="nav-title">Payment</h1>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="payment-container">
+            <!-- ORDER SUMMARY -->
+            <div class="order-summary">
+                <h2 data-i18n="payment.summary">Order Summary</h2>
+                <div id="orderItems"></div>
+                <div class="order-total">
+                    <span data-i18n="payment.total">Total:</span>
+                    <span id="totalPrice">$99.99</span>
+                </div>
+            </div>
+
+            <!-- PAYMENT FORM -->
+            <div class="payment-form">
+                <h2 data-i18n="payment.title">Payment Details</h2>
+                <div id="alert" class="alert"></div>
+                <form id="paymentForm">
+                    <div class="form-group">
+                        <label data-i18n="payment.cardName">Cardholder Name</label>
+                        <input type="text" id="cardName" required>
+                    </div>
+                    <div class="form-group">
+                        <label data-i18n="payment.email">Email</label>
+                        <input type="email" id="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label data-i18n="payment.card">Card Details</label>
+                        <div id="card-element"></div>
+                    </div>
+                    <button type="submit" class="btn" id="submitBtn">
+                        <i class="fas fa-lock"></i>
+                        <span data-i18n="payment.pay">Pay Now</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/translation.js"></script>
+    <script src="/js/auth.js"></script>
+    <script>
+        const stripe = Stripe('pk_test_YOUR_PUBLISHABLE_KEY'); // Add your Stripe key
+        const elements = stripe.elements();
+        const cardElement = elements.create('card');
+        cardElement.mount('#card-element');
+
+        const formParams = new URLSearchParams(window.location.search);
+        const formType = formParams.get('type') || 'i-130';
+        const prices = {
+            'i-130': 99.99,
+            'i-485': 149.99,
+            'i-765': 79.99,
+            'i-131': 69.99,
+            'n-400': 119.99,
+            'i-539': 89.99
+        };
+        const price = prices[formType] || 99.99;
+
+        document.getElementById('totalPrice').textContent = '$' + price.toFixed(2);
+        document.getElementById('orderItems').innerHTML = `
+            <div class="order-item">
+                <span class="order-item-name">Form ${formType.toUpperCase()}</span>
+                <span class="order-item-price">$${price.toFixed(2)}</span>
+            </div>
+        `;
+
+        document.getElementById('paymentForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            document.getElementById('submitBtn').disabled = true;
+
+            const token = localStorage.getItem('token') || localStorage.getItem('authToken');
+            try {
+                const response = await fetch('http://localhost:5000/api/payments/create-payment-intent', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        amount: Math.round(price * 100),
+                        formType: formType,
+                        email: document.getElementById('email').value,
+                        description: `Payment for Form ${formType}`
+                    })
+                });
+
+                const { clientSecret } = await response.json();
+                const result = await stripe.confirmCardPayment(clientSecret, {
+                    payment_method: {
+                        card: cardElement,
+                        billing_details: {
+                            name: document.getElementById('cardName').value,
+                            email: document.getElementById('email').value
+                        }
+                    }
+                });
+
+                if (result.error) {
+                    showAlert(result.error.message, 'error');
+                    document.getElementById('submitBtn').disabled = false;
+                } else if (result.paymentIntent.status === 'succeeded') {
+                    showAlert('Payment successful! Redirecting...', 'success');
+                    setTimeout(() => {
+                        window.location.href = `form-fill.html?type=${formType}`;
+                    }, 2000);
+                }
+            } catch (error) {
+                showAlert(error.message, 'error');
+                document.getElementById('submitBtn').disabled = false;
+            }
+        });
+
+        function showAlert(message, type) {
+            const alert = document.getElementById('alert');
+            alert.textContent = message;
+            alert.className = `alert alert-${type}`;
+            alert.style.display = 'block';
+        }
+    </script>
+</body>
+</html>

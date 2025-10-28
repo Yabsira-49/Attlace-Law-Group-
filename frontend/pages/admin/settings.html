@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Settings - Attles Law Group</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="../../assets/images/logo.png">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/dashboard.css">
+    <link rel="stylesheet" href="../../css/responsive.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        .admin-dashboard {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 20px;
+        }
+
+        .page-header {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .page-header h1 {
+            font-family: 'Playfair Display', serif;
+            color: #1a3a52;
+            margin: 0 0 10px 0;
+            font-size: 2.5rem;
+        }
+
+        .page-header p {
+            color: #6b7280;
+            margin: 0;
+        }
+
+        /* Admin Navigation */
+        .admin-nav {
+            background: white;
+            padding: 15px 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            display: flex;
+            gap: 20px;
+            overflow-x: auto;
+        }
+
+        .admin-nav a {
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            color: #6b7280;
+            font-weight: 500;
+            white-space: nowrap;
+            transition: all 0.3s ease;
+        }
+
+        .admin-nav a:hover,
+        .admin-nav a.active {
+            background: #1a3a52;
+            color: white;
+        }
+
+        .admin-nav a i {
+            margin-right: 8px;
+        }
+
+        /* Settings Card */
+        .settings-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .settings-card h2 {
+            font-family: 'Playfair Display', serif;
+            color: #1a3a52;
+            margin: 0 0 25px 0;
+            font-size: 1.8rem;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #374151;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 20px;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #1a3a52;
+        }
+
+        .form-group small {
+            display: block;
+            margin-top: 5px;
+            color: #6b7280;
+            font-size: 0.85rem;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #1a3a52 0%, #0f1f33 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(26, 58, 82, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .admin-nav {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-dashboard">
+        <div class="container">
+            <!-- Page Header -->
+            <div class="page-header">
+                <h1><i class="fas fa-cog"></i> Settings</h1>
+                <p>Manage system configuration</p>
+            </div>
+
+            <!-- Navigation -->
+            <div class="admin-nav">
+                <a href="dashboard.html">
+                    <i class="fas fa-home"></i> Dashboard
+                </a>
+                <a href="users-overview.html">
+                    <i class="fas fa-users"></i> Users
+                </a>
+                <a href="subadmins.html">
+                    <i class="fas fa-user-shield"></i> SubAdmins
+                </a>
+                <a href="analytics.html">
+                    <i class="fas fa-chart-bar"></i> Analytics
+                </a>
+                <a href="pricing.html">
+                    <i class="fas fa-dollar-sign"></i> Pricing
+                </a>
+                <a href="settings.html" class="active">
+                    <i class="fas fa-cog"></i> Settings
+                </a>
+                <a href="profile.html">
+                    <i class="fas fa-user"></i> Profile
+                </a>
+            </div>
+
+            <!-- Stripe Configuration -->
+            <div class="settings-card">
+                <h2><i class="fas fa-credit-card"></i> Stripe Configuration</h2>
+                <form id="stripeForm">
+                    <div class="form-group">
+                        <label for="stripeKey">
+                            <i class="fas fa-key"></i> Stripe Secret Key
+                        </label>
+                        <input 
+                            type="password" 
+                            id="stripeKey" 
+                            placeholder="sk_test_..."
+                            required
+                        >
+                        <small>Enter your Stripe secret key (starts with sk_test_ or sk_live_)</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="stripePassword">
+                            <i class="fas fa-lock"></i> Admin Password (for confirmation)
+                        </label>
+                        <input 
+                            type="password" 
+                            id="stripePassword" 
+                            placeholder="Enter your admin password"
+                            required
+                        >
+                        <small>Enter your admin password to confirm this change</small>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Save Stripe Key
+                    </button>
+                </form>
+            </div>
+
+            <!-- Email Configuration -->
+            <div class="settings-card">
+                <h2><i class="fas fa-envelope"></i> Email Configuration</h2>
+                <form id="emailForm">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+                        <div class="form-group">
+                            <label for="smtpHost">SMTP Host</label>
+                            <input 
+                                type="text" 
+                                id="smtpHost" 
+                                placeholder="smtp.gmail.com"
+                            >
+                        </div>
+                        <div class="form-group">
+                            <label for="smtpPort">SMTP Port</label>
+                            <input 
+                                type="number" 
+                                id="smtpPort" 
+                                placeholder="587"
+                            >
+                        </div>
+                        <div class="form-group">
+                            <label for="smtpUser">SMTP Username</label>
+                            <input 
+                                type="email" 
+                                id="smtpUser" 
+                                placeholder="your@email.com"
+                            >
+                        </div>
+                        <div class="form-group">
+                            <label for="smtpPass">SMTP Password</label>
+                            <input 
+                                type="password" 
+                                id="smtpPass" 
+                                placeholder="••••••••"
+                            >
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Save Email Settings
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts - REMOVED email.js (it's a backend file!) -->
+    <script src="../../js/dashboard.js"></script>
+    <script src="../../js/settings.js"></script>
+</body>
+</html>

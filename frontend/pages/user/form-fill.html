@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Form I-130 Filler - Attles Law Group</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-navy: #1a3d6d;
+            --primary-red: #c41e3a;
+            --primary-gold: #d4af37;
+            --light-bg: #f5f7fa;
+            --text-dark: #1a3d6d;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--light-bg) 0%, #e8eef7 100%);
+            color: var(--text-dark);
+        }
+
+        /* NAVBAR */
+        .navbar {
+            background: linear-gradient(135deg, var(--primary-navy) 0%, #1a2e4a 100%);
+            padding: 1rem;
+            box-shadow: 0 4px 15px rgba(26, 61, 109, 0.3);
+            border-bottom: 3px solid var(--primary-gold);
+        }
+
+        .nav-content {
+            max-width: 100%;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 1rem;
+        }
+
+        .nav-title {
+            color: white;
+            font-size: clamp(1rem, 4vw, 1.3rem);
+            font-weight: 700;
+        }
+
+        .nav-back {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-back:hover {
+            color: var(--primary-gold);
+        }
+
+        /* MAIN */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 1.5rem;
+        }
+
+        .form-header {
+            background: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(26, 61, 109, 0.1);
+            border-left: 5px solid var(--primary-gold);
+        }
+
+        .form-header h1 {
+            color: var(--primary-navy);
+            font-size: clamp(1.5rem, 5vw, 2rem);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-header p {
+            color: #64748b;
+            font-size: 0.95rem;
+        }
+
+        /* PROGRESS BAR */
+        .progress-container {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(26, 61, 109, 0.1);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-navy) 0%, var(--primary-red) 100%);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        .progress-text {
+            text-align: center;
+            color: var(--primary-navy);
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        /* FORM */
+        .form-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(26, 61, 109, 0.1);
+        }
+
+        .section-title {
+            color: var(--primary-navy);
+            font-size: clamp(1.2rem, 4vw, 1.5rem);
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--primary-gold);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .section-title::before {
+            content: '';
+            width: 4px;
+            height: 24px;
+            background: var(--primary-red);
+            border-radius: 2px;
+        }
+
+        /* FORM ROWS */
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            color: var(--primary-navy);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .form-group label .required {
+            color: var(--danger);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 0.75rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 0.5rem;
+            font-size: 0.95rem;
+            font-family: inherit;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-gold);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+            background: linear-gradient(135deg, rgba(26, 61, 109, 0.02) 0%, rgba(212, 175, 55, 0.02) 100%);
+        }
+
+        .form-group input.error,
+        .form-group select.error {
+            border-color: var(--danger);
+            background: rgba(239, 68, 68, 0.05);
+        }
+
+        .error-message {
+            color: var(--danger);
+            font-size: 0.8rem;
+            margin-top: 0.25rem;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        .help-text {
+            color: #64748b;
+            font-size: 0.8rem;
+            margin-top: 0.25rem;
+        }
+
+        /* CHECKBOX GROUP */
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: var(--primary-gold);
+        }
+
+        .checkbox-item label {
+            margin: 0;
+            cursor: pointer;
+            font-weight: 400;
+        }
+
+        /* BUTTONS */
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            padding: clamp(0.75rem, 2vw, 1rem) clamp(1.5rem, 4vw, 2rem);
+            border: none;
+            border-radius: 0.5rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: clamp(0.9rem, 2vw, 1rem);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            min-height: 44px;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-navy) 0%, var(--primary-red) 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(196, 30, 58, 0.3);
+        }
+
+        .btn-secondary {
+            background: #e2e8f0;
+            color: var(--primary-navy);
+            border: 2px solid var(--primary-navy);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary-navy);
+            color: white;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* SUCCESS MESSAGE */
+        .alert {
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            margin-bottom: 2rem;
+            display: none;
+            border-left: 4px solid;
+        }
+
+        .alert.show {
+            display: block;
+        }
+
+        .alert-success {
+            background: #d1fae5;
+            border-color: var(--success);
+            color: #065f46;
+        }
+
+        .alert-error {
+            background: #fee2e2;
+            border-color: var(--danger);
+            color: #7f1d1d;
+        }
+
+        .alert-warning {
+            background: #fef3c7;
+            border-color: var(--warning);
+            color: #92400e;
+        }
+
+        /* LOADING */
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .loading.show {
+            display: block;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(26, 61, 109, 0.2);
+            border-top-color: var(--primary-navy);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            .form-section {
+                padding: 1.5rem;
+            }
+            .form-actions {
+                flex-direction: column;
+            }
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-content">
+            <h1 class="nav-title">Form I-130 Filler</h1>
+            <a href="dashboard.html" class="nav-back">
+                <i class="fas fa-arrow-left"></i>
+                <span>Back</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- MAIN -->
+    <div class="container">
+        <!-- ALERT -->
+        <div id="alert" class="alert"></div>
+
+        <!-- HEADER -->
+        <div class="form-header">
+            <h1 data-i18n="form.i130.title">Form I-130: Petition for Alien Relative</h1>
+            <p data-i18n="form.i130.desc">Complete the form below to petition for your alien relative</p>
+        </div>
+
+        <!-- PROGRESS -->
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="progress-text">
+                <span id="progressText">0% Complete</span>
+            </div>
+        </div>
+
+        <!-- FORM -->
+        <form id="i130Form">
+            <!-- PETITIONER INFO -->
+            <div class="form-section">
+                <h2 class="section-title">
+                    <i class="fas fa-user"></i>
+                    <span data-i18n="form.sections.petitioner">Petitioner Information</span>
+                </h2>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>
+                            <span data-i18n="form.fields.firstName">First Name</span>
+                            <span class="required">*</span>
+                        </label>
+                        <input type="text" name="petitionerFirstName" required data-field="petitionerFirstName">
+                        <span class="error-message"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <span data-i18n="form.fields.lastName">Last Name</span>
+                            <span class="required">*</span>
+                        </label>
+                        <input type="text" name="petitionerLastName" required data-field="petitionerLastName">
+                        <span class="error-message"></span>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>
+                            <span data-i18n="form.fields.dateOfBirth">Date of Birth</span>
+                            <span class="required">*</span>
+                        </label>
+                        <input type="date" name="petitionerDOB" required data-field="petitionerDOB">
+                        <span class="error-message"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <span data-i18n="form.fields.uscisNumber">USCIS/A Number</span>
+                            <span class="required">*</span>
+                        </label>
+                        <input type="text" name="petitionerUSCIS" required placeholder="A000000000" data-field="petitionerUSCIS">
+                        <span class="error-message"></span>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>
+                            <span data-i18n="form.fields.email">Email Address</span>
+                            <span class="required">*</span>
+                        </label>
+                        <input type="email" name="petitionerEmail" required data-field="petitionerEmail">
+                        <span class="error-message"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <span data-i18n="form.fields.phone">Phone Number</span>
+                            <span class="required">*</span>
+                        </label>
+                        <input type="tel" name="petitionerPhone" required data-field="petitionerPhone">
+                        <span class="error-message"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BENEFICIARY INFO -->
+            <div class="form-section">
+                <h2 class="section-title">
+                    <i class="fas fa-heart"></i>
+                    <span data-i18n="form.sections.beneficiary">Beneficiary Information</span>
+                </h2>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>
+                            <span data-i18n="form.fields.firstName">First Name</span>
+                            <span class="required">*</span>
+                        </label>
+                        <input type="text" name="beneficiaryFirstName" required data-field="beneficiaryFirstName">
+                        <span class="error-message"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <span data-i18n="form.fields.lastName">Last Name</span>
+                            <span class="required">*</span>
+                        </label>
+                        <input type="text" name="beneficiaryLastName" required data-field="beneficiaryLastName">
+                        <span class="error-message"></span>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>
+                            <span data-i18n="form.fields.dateOfBirth">Date of Birth</span>
+                            <span class="required">*</span>
+                        </label>
+                        <input type="date" name="beneficiaryDOB" required data-field="beneficiaryDOB">
+                        <span class="error-message"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <span data-i18n="form.fields.countryOfOrigin">Country of Origin</span>
+                            <span class="required">*</span>
+                        </label>
+                        <input type="text" name="beneficiaryCountry" required data-field="beneficiaryCountry">
+                        <span class="error-message"></span>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>
+                            <span data-i18n="form.fields.relationship">Relationship to Petitioner</span>
+                            <span class="required">*</span>
+                        </label>
+                        <select name="relationship" required data-field="relationship">
+                            <option value="">-- Select Relationship --</option>
+                            <option data-i18n="form.relationships.spouse" value="spouse">Spouse</option>
+                            <option data-i18n="form.relationships.child" value="child">Child</option>
+                            <option data-i18n="form.relationships.parent" value="parent">Parent</option>
+                            <option data-i18n="form.relationships.sibling" value="sibling">Sibling</option>
+                        </select>
+                        <span class="error-message"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ADDITIONAL INFO -->
+            <div class="form-section">
+                <h2 class="section-title">
+                    <i class="fas fa-info-circle"></i>
+                    <span data-i18n="form.sections.additional">Additional Information</span>
+                </h2>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>
+                            <span data-i18n="form.fields.notes">Additional Notes or Information</span>
+                        </label>
+                        <textarea name="additionalInfo" rows="4" data-field="additionalInfo" placeholder="Any additional information..."></textarea>
+                        <span class="help-text" data-i18n="form.help.notes">This field is optional</span>
+                    </div>
+                </div>
+
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="terms" name="terms" required>
+                        <label for="terms" data-i18n="form.checkbox.terms">I certify that the information provided is true and correct</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BUTTONS -->
+            <div class="form-actions">
+                <a href="dashboard.html" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i>
+                    <span data-i18n="form.buttons.cancel">Cancel</span>
+                </a>
+                <button type="button" class="btn btn-secondary" onclick="saveDraft()">
+                    <i class="fas fa-save"></i>
+                    <span data-i18n="form.buttons.save">Save Draft</span>
+                </button>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-check"></i>
+                    <span data-i18n="form.buttons.submit">Submit Form</span>
+                </button>
+            </div>
+        </form>
+
+        <!-- LOADING -->
+        <div id="loading" class="loading">
+            <div class="spinner"></div>
+            <p data-i18n="loading">Loading...</p>
+        </div>
+    </div>
+
+    <!-- SCRIPTS -->
+    <script src="/js/translation.js"></script>
+    <script src="/js/auth.js"></script>
+    <script>
+        const form = document.getElementById('i130Form');
+        const alert = document.getElementById('alert');
+        const progressFill = document.getElementById('progressFill');
+        const progressText = document.getElementById('progressText');
+
+        // Load saved data
+        document.addEventListener('DOMContentLoaded', () => {
+            loadFormData();
+            setupFormListeners();
+        });
+
+        function setupFormListeners() {
+            // Update progress on input change
+            form.addEventListener('change', updateProgress);
+            form.addEventListener('input', updateProgress);
+
+            // Form submission
+            form.addEventListener('submit', handleSubmit);
+
+            // Validation
+            form.querySelectorAll('input, select, textarea').forEach(field => {
+                field.addEventListener('blur', () => validateField(field));
+            });
+        }
+
+        function updateProgress() {
+            const fields = form.querySelectorAll('[required]');
+            const filledFields = Array.from(fields).filter(f => f.value.trim() !== '').length;
+            const progress = Math.round((filledFields / fields.length) * 100);
+            
+            progressFill.style.width = progress + '%';
+            progressText.textContent = progress + '% Complete';
+        }
+
+        function validateField(field) {
+            const errorMsg = field.parentElement.querySelector('.error-message');
+            let isValid = true;
+            let message = '';
+
+            if (field.hasAttribute('required') && !field.value.trim()) {
+                isValid = false;
+                message = 'This field is required';
+            } else if (field.type === 'email' && field.value && !field.value.includes('@')) {
+                isValid = false;
+                message = 'Please enter a valid email';
+            } else if (field.type === 'tel' && field.value && field.value.length < 10) {
+                isValid = false;
+                message = 'Please enter a valid phone number';
+            }
+
+            if (!isValid) {
+                field.classList.add('error');
+                errorMsg.textContent = message;
+                errorMsg.classList.add('show');
+            } else {
+                field.classList.remove('error');
+                errorMsg.classList.remove('show');
+            }
+
+            return isValid;
+        }
+
+        function saveDraft() {
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData);
+            data.formType = 'i-130';
+            data.status = 'draft';
+            data.savedAt = new Date().toISOString();
+
+            localStorage.setItem('i130Draft', JSON.stringify(data));
+            showAlert('Form draft saved successfully!', 'success');
+        }
+
+        function loadFormData() {
+            const draft = localStorage.getItem('i130Draft');
+            if (draft) {
+                const data = JSON.parse(draft);
+                Object.keys(data).forEach(key => {
+                    const field = form.querySelector(`[name="${key}"]`);
+                    if (field) field.value = data[key];
+                });
+            }
+        }
+
+        async function handleSubmit(e) {
+            e.preventDefault();
+
+            // Validate all fields
+            let isValid = true;
+            form.querySelectorAll('[required]').forEach(field => {
+                if (!validateField(field)) isValid = false;
+            });
+
+            if (!isValid) {
+                showAlert('Please fix the errors in the form', 'error');
+                return;
+            }
+
+            // Submit
+            showLoading(true);
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData);
+            data.formType = 'i-130';
+            data.status = 'submitted';
+
+            try {
+                const token = localStorage.getItem('token') || localStorage.getItem('authToken');
+                const response = await fetch('http://localhost:5000/api/user/forms/submit', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+                showLoading(false);
+
+                if (response.ok) {
+                    localStorage.removeItem('i130Draft');
+                    showAlert('Form submitted successfully!', 'success');
+                    setTimeout(() => {
+                        window.location.href = 'dashboard.html';
+                    }, 2000);
+                } else {
+                    showAlert(result.error || 'Error submitting form', 'error');
+                }
+            } catch (err) {
+                showLoading(false);
+                showAlert('Error: ' + err.message, 'error');
+            }
+        }
+
+        function showAlert(message, type = 'info') {
+            alert.className = `alert alert-${type} show`;
+            alert.textContent = message;
+            setTimeout(() => alert.classList.remove('show'), 5000);
+        }
+
+        function showLoading(show) {
+            document.getElementById('loading').classList.toggle('show', show);
+        }
+    </script>
+</body>
+</html>

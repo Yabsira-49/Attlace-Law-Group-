@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Admin Dashboard - Attles Law Group</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="../../assets/images/logo.png">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/dashboard.css">
+    <link rel="stylesheet" href="../../css/responsive.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Admin Dashboard Custom Styles */
+        .admin-dashboard {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 20px;
+        }
+
+        .dashboard-header {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .dashboard-header h1 {
+            font-family: 'Playfair Display', serif;
+            color: #1a3a52;
+            margin: 0;
+            font-size: 2.5rem;
+        }
+
+        .dashboard-header .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .dashboard-header .user-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: var(--accent-color, #1a3a52);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .stat-card.total { --accent-color: #1a3a52; }
+        .stat-card.approved { --accent-color: #10b981; }
+        .stat-card.pending { --accent-color: #f59e0b; }
+        .stat-card.rejected { --accent-color: #ef4444; }
+
+        .stat-card .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            background: var(--accent-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+
+        .stat-card h3 {
+            font-size: 0.9rem;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .stat-card .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #1a3a52;
+            margin-bottom: 10px;
+        }
+
+        .stat-card .stat-change {
+            font-size: 0.9rem;
+            color: #10b981;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* Quick Actions */
+        .quick-actions {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .quick-actions h2 {
+            font-family: 'Playfair Display', serif;
+            color: #1a3a52;
+            margin-bottom: 25px;
+            font-size: 1.8rem;
+        }
+
+        .actions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .action-card {
+            padding: 25px;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .action-card:hover {
+            border-color: #1a3a52;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(26, 58, 82, 0.2);
+        }
+
+        .action-card i {
+            font-size: 2.5rem;
+            color: #1a3a52;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .action-card h3 {
+            color: #1a3a52;
+            font-size: 1.1rem;
+            margin: 0;
+        }
+
+        /* Loading State */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(26, 58, 82, 0.1);
+            border-radius: 50%;
+            border-top-color: #1a3a52;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Navigation */
+        .admin-nav {
+            background: white;
+            padding: 15px 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            display: flex;
+            gap: 20px;
+            overflow-x: auto;
+        }
+
+        .admin-nav a {
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            color: #6b7280;
+            font-weight: 500;
+            white-space: nowrap;
+            transition: all 0.3s ease;
+        }
+
+        .admin-nav a:hover,
+        .admin-nav a.active {
+            background: #1a3a52;
+            color: white;
+        }
+
+        .admin-nav a i {
+            margin-right: 8px;
+        }
+
+        /* Buttons */
+        .btn-logout {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-logout:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(239, 68, 68, 0.3);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .dashboard-header {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+
+            .dashboard-header h1 {
+                font-size: 1.8rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .admin-nav {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-dashboard">
+        <div class="container">
+            <!-- Dashboard Header -->
+            <div class="dashboard-header">
+                <div>
+                    <h1><i class="fas fa-chart-line"></i> Admin Dashboard</h1>
+                    <p style="color: #6b7280; margin: 5px 0 0 0;">Welcome back! Here's your system overview</p>
+                </div>
+                <div class="user-info">
+                    <div class="user-avatar" id="userAvatar">AD</div>
+                    <div style="text-align: left;">
+                        <div style="font-weight: 600; color: #1a3a52;" id="userName">Admin</div>
+                        <div style="font-size: 0.85rem; color: #6b7280;">Administrator</div>
+                    </div>
+                    <button class="btn-logout" id="logoutBtn">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </div>
+            </div>
+
+            <!-- Navigation -->
+            <div class="admin-nav">
+                <a href="dashboard.html" class="active">
+                    <i class="fas fa-home"></i> Dashboard
+                </a>
+                <a href="users-overview.html">
+                    <i class="fas fa-users"></i> Users
+                </a>
+                <a href="subadmins.html">
+                    <i class="fas fa-user-shield"></i> SubAdmins
+                </a>
+                <a href="analytics.html">
+                    <i class="fas fa-chart-bar"></i> Analytics
+                </a>
+                <a href="pricing.html">
+                    <i class="fas fa-dollar-sign"></i> Pricing
+                </a>
+                <a href="settings.html">
+                    <i class="fas fa-cog"></i> Settings
+                </a>
+                <a href="profile.html">
+                    <i class="fas fa-user"></i> Profile
+                </a>
+            </div>
+
+            <!-- Statistics Cards -->
+            <div class="stats-grid">
+                <div class="stat-card total">
+                    <div class="stat-icon">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <h3>Total Submissions</h3>
+                    <div class="stat-value" id="totalSubmissions">
+                        <span class="loading"></span>
+                    </div>
+                    <div class="stat-change">
+                        <i class="fas fa-arrow-up"></i>
+                        All time submissions
+                    </div>
+                </div>
+
+                <div class="stat-card approved">
+                    <div class="stat-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h3>Approved Forms</h3>
+                    <div class="stat-value" id="approvedCount">
+                        <span class="loading"></span>
+                    </div>
+                    <div class="stat-change">
+                        <i class="fas fa-check"></i>
+                        Successfully processed
+                    </div>
+                </div>
+
+                <div class="stat-card pending">
+                    <div class="stat-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3>Pending Review</h3>
+                    <div class="stat-value" id="pendingCount">
+                        <span class="loading"></span>
+                    </div>
+                    <div class="stat-change">
+                        <i class="fas fa-hourglass-half"></i>
+                        Awaiting action
+                    </div>
+                </div>
+
+                <div class="stat-card rejected">
+                    <div class="stat-icon">
+                        <i class="fas fa-times-circle"></i>
+                    </div>
+                    <h3>Rejected Forms</h3>
+                    <div class="stat-value" id="rejectedCount">
+                        <span class="loading"></span>
+                    </div>
+                    <div class="stat-change" style="color: #ef4444;">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        Needs attention
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="quick-actions">
+                <h2><i class="fas fa-bolt"></i> Quick Actions</h2>
+                <div class="actions-grid">
+                    <a href="users-overview.html" class="action-card">
+                        <i class="fas fa-users"></i>
+                        <h3>Manage Users</h3>
+                    </a>
+                    <a href="subadmins.html" class="action-card">
+                        <i class="fas fa-user-shield"></i>
+                        <h3>Manage SubAdmins</h3>
+                    </a>
+                    <a href="analytics.html" class="action-card">
+                        <i class="fas fa-chart-line"></i>
+                        <h3>View Analytics</h3>
+                    </a>
+                    <a href="pricing.html" class="action-card">
+                        <i class="fas fa-dollar-sign"></i>
+                        <h3>Set Pricing</h3>
+                    </a>
+                    <a href="settings.html" class="action-card">
+                        <i class="fas fa-cog"></i>
+                        <h3>System Settings</h3>
+                    </a>
+                    <a href="profile.html" class="action-card">
+                        <i class="fas fa-user-edit"></i>
+                        <h3>Edit Profile</h3>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="../../js/api.js"></script>
+    <script src="../../js/dashboard.js"></script>
+</body>
+</html>

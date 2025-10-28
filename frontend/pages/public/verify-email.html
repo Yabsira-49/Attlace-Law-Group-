@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify Email - Attles Law Group</title>
+    <meta name="description" content="Verify your email to complete registration and access your Attles Law Group account.">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/auth.css">
+    <link rel="stylesheet" href="../../css/responsive.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="auth-page">
+    <header class="header">
+        <nav class="navbar container">
+            <div class="nav-brand">
+                <a href="../../index.html"><img src="../../assets/images/logo.png" alt="Attles Law Group Logo" class="logo"></a>
+            </div>
+        </nav>
+    </header>
+    <main class="auth-container">
+        <div class="auth-content">
+            <div class="auth-form-container" style="margin:auto;">
+                <div class="auth-form-wrapper">
+                    <div class="auth-form-header">
+                        <h2>Verify Your Email</h2>
+                        <p>Please enter the 6-digit code sent to your email address.</p>
+                    </div>
+                    <form id="verifyForm" class="auth-form" novalidate>
+                        <div class="form-group">
+                            <label for="verificationCode" class="form-label">
+                                <i class="fas fa-key"></i> Verification Code
+                            </label>
+                            <input type="text" id="verificationCode" name="verificationCode" class="form-input" placeholder="123456" required maxlength="6">
+                            <span class="form-error" id="codeError"></span>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block" id="verifyBtn">Verify Email</button>
+                        <div class="form-footer">
+                            <p>Didn't receive code? <a href="./resend-verification.html" class="form-link-primary">Resend</a></p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="../../js/main.js"></script>
+    <script src="../../js/api.js"></script>
+    <script>
+        class VerifyHandler {
+            constructor() {
+                this.form = document.getElementById('verifyForm');
+                this.codeInput = document.getElementById('verificationCode');
+                this.verifyBtn = document.getElementById('verifyBtn');
+                this.init();
+            }
+            init() {
+                this.form.addEventListener('submit', e => this.handleSubmit(e));
+            }
+            showError(msg) {
+                document.getElementById('codeError').textContent = msg;
+                document.getElementById('codeError').classList.add('visible');
+            }
+            clearError() {
+                document.getElementById('codeError').textContent = '';
+                document.getElementById('codeError').classList.remove('visible');
+            }
+            setLoading(is) {
+                this.verifyBtn.disabled = is;
+                this.verifyBtn.textContent = is ? 'Verifying...' : 'Verify Email';
+            }
+            async handleSubmit(e) {
+                e.preventDefault();
+                const code = this.codeInput.value.trim();
+                if (!/^[0-9]{6}$/.test(code)) {
+                    return this.showError('Enter a valid 6-digit code');
+                }
+                this.clearError();
+                this.setLoading(true);
+                const params = new URLSearchParams(window.location.search);
+                const email = params.get('email');
+                try {
+                    await api.verifyEmail(email, code);
+                    window.location.href = './login.html';
+                } catch (err) {
+                    window.AppUtils.NotificationManager.show(err.message || 'Verification failed','error',5000);
+                } finally {
+                    this.setLoading(false);
+                }
+            }
+        }
+        document.addEventListener('DOMContentLoaded', () => new VerifyHandler());
+    </script>
+</body>
+</html>

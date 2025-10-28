@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Analytics - Attles Law Group</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="../../assets/images/logo.png">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/dashboard.css">
+    <link rel="stylesheet" href="../../css/responsive.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    
+    <style>
+        .admin-dashboard {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 20px;
+        }
+
+        .page-header {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .page-header h1 {
+            font-family: 'Playfair Display', serif;
+            color: #1a3a52;
+            margin: 0 0 10px 0;
+            font-size: 2.5rem;
+        }
+
+        .page-header p {
+            color: #6b7280;
+            margin: 0;
+        }
+
+        /* Admin Navigation */
+        .admin-nav {
+            background: white;
+            padding: 15px 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            display: flex;
+            gap: 20px;
+            overflow-x: auto;
+        }
+
+        .admin-nav a {
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            color: #6b7280;
+            font-weight: 500;
+            white-space: nowrap;
+            transition: all 0.3s ease;
+        }
+
+        .admin-nav a:hover,
+        .admin-nav a.active {
+            background: #1a3a52;
+            color: white;
+        }
+
+        .admin-nav a i {
+            margin-right: 8px;
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .stat-icon.blue {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .stat-icon.green {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .stat-icon.purple {
+            background: #e0e7ff;
+            color: #5b21b6;
+        }
+
+        .stat-icon.orange {
+            background: #fed7aa;
+            color: #92400e;
+        }
+
+        .stat-info h3 {
+            margin: 0;
+            font-size: 2rem;
+            color: #1a3a52;
+            font-weight: 700;
+        }
+
+        .stat-info p {
+            margin: 5px 0 0 0;
+            color: #6b7280;
+        }
+
+        /* Chart Cards */
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .chart-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .chart-card h2 {
+            font-family: 'Playfair Display', serif;
+            color: #1a3a52;
+            margin: 0 0 25px 0;
+            font-size: 1.5rem;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 300px;
+        }
+
+        @media (max-width: 768px) {
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .admin-nav {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-dashboard">
+        <div class="container">
+            <!-- Page Header -->
+            <div class="page-header">
+                <h1><i class="fas fa-chart-bar"></i> Analytics Dashboard</h1>
+                <p>View system statistics and insights</p>
+            </div>
+
+            <!-- Navigation -->
+            <div class="admin-nav">
+                <a href="dashboard.html">
+                    <i class="fas fa-home"></i> Dashboard
+                </a>
+                <a href="users-overview.html">
+                    <i class="fas fa-users"></i> Users
+                </a>
+                <a href="subadmins.html">
+                    <i class="fas fa-user-shield"></i> SubAdmins
+                </a>
+                <a href="analytics.html" class="active">
+                    <i class="fas fa-chart-bar"></i> Analytics
+                </a>
+                <a href="pricing.html">
+                    <i class="fas fa-dollar-sign"></i> Pricing
+                </a>
+                <a href="settings.html">
+                    <i class="fas fa-cog"></i> Settings
+                </a>
+                <a href="profile.html">
+                    <i class="fas fa-user"></i> Profile
+                </a>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon blue">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="totalUsers">0</h3>
+                        <p>Total Users</p>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon green">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="totalForms">0</h3>
+                        <p>Total Forms</p>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon purple">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="approvedForms">0</h3>
+                        <p>Approved Forms</p>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon orange">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="pendingForms">0</h3>
+                        <p>Pending Forms</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts -->
+            <div class="charts-grid">
+                <!-- User Registrations Chart -->
+                <div class="chart-card">
+                    <h2><i class="fas fa-user-plus"></i> User Registrations (Last 7 Days)</h2>
+                    <div class="chart-container">
+                        <canvas id="userRegistrationsChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Form Types Chart -->
+                <div class="chart-card">
+                    <h2><i class="fas fa-file-alt"></i> Forms by Type</h2>
+                    <div class="chart-container">
+                        <canvas id="formTypesChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Form Status Chart -->
+                <div class="chart-card">
+                    <h2><i class="fas fa-tasks"></i> Forms by Status</h2>
+                    <div class="chart-container">
+                        <canvas id="formStatusChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Monthly Forms Chart -->
+                <div class="chart-card">
+                    <h2><i class="fas fa-calendar-alt"></i> Monthly Form Submissions</h2>
+                    <div class="chart-container">
+                        <canvas id="monthlyFormsChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="../../js/analytics.js"></script>
+</body>
+</html>

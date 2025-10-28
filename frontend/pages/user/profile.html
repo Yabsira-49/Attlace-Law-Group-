@@ -1,0 +1,135 @@
+<!-- PROFILE.HTML -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - Attles Law Group</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --primary-navy: #1a3d6d; --primary-red: #c41e3a; --primary-gold: #d4af37; --light-bg: #f5f7fa; --text-dark: #1a3d6d; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, var(--light-bg) 0%, #e8eef7 100%); color: var(--text-dark); }
+        .navbar { background: linear-gradient(135deg, var(--primary-navy) 0%, #1a2e4a 100%); padding: 1rem; box-shadow: 0 4px 15px rgba(26, 61, 109, 0.3); border-bottom: 3px solid var(--primary-gold); }
+        .nav-content { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0 1rem; }
+        .nav-title { color: white; font-size: 1.3rem; font-weight: 700; }
+        .nav-back { color: white; text-decoration: none; font-weight: 600; transition: color 0.3s; display: flex; align-items: center; gap: 0.5rem; }
+        .nav-back:hover { color: var(--primary-gold); }
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem 1rem; }
+        .profile-container { display: grid; grid-template-columns: 300px 1fr; gap: 2rem; }
+        .profile-sidebar { background: white; padding: 2rem; border-radius: 1rem; box-shadow: 0 4px 15px rgba(26, 61, 109, 0.1); text-align: center; height: fit-content; }
+        .profile-avatar { width: 120px; height: 120px; border-radius: 50%; background: linear-gradient(135deg, var(--primary-navy) 0%, var(--primary-red) 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem; margin: 0 auto 1rem; }
+        .profile-name { color: var(--primary-navy); font-size: 1.3rem; font-weight: 700; margin-bottom: 0.5rem; }
+        .profile-email { color: #64748b; font-size: 0.95rem; }
+        .btn { background: linear-gradient(135deg, var(--primary-navy) 0%, var(--primary-red) 100%); color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 0.5rem; font-weight: 700; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; transition: all 0.3s; margin-top: 1rem; width: 100%; justify-content: center; }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(196, 30, 58, 0.3); }
+        .profile-content { background: white; padding: 2rem; border-radius: 1rem; box-shadow: 0 4px 15px rgba(26, 61, 109, 0.1); border-left: 5px solid var(--primary-gold); }
+        .profile-content h2 { color: var(--primary-navy); margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 2px solid var(--primary-gold); }
+        .form-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 1.5rem; }
+        .form-group { display: flex; flex-direction: column; }
+        .form-group label { color: var(--primary-navy); font-weight: 600; margin-bottom: 0.5rem; }
+        .form-group input { padding: 0.75rem; border: 2px solid #e2e8f0; border-radius: 0.5rem; font-family: inherit; transition: all 0.3s; }
+        .form-group input:focus { outline: none; border-color: var(--primary-gold); box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1); }
+        .form-actions { display: flex; gap: 1rem; justify-content: flex-end; margin-top: 2rem; }
+        .btn-secondary { background: #e2e8f0; color: var(--primary-navy); border: 2px solid var(--primary-navy); }
+        .btn-secondary:hover { background: var(--primary-navy); color: white; }
+        @media (max-width: 768px) { .profile-container { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+            <h1 class="nav-title">My Profile</h1>
+            <a href="dashboard.html" class="nav-back"><i class="fas fa-arrow-left"></i> Back</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="profile-container">
+            <div class="profile-sidebar">
+                <div class="profile-avatar" id="avatar">👤</div>
+                <div class="profile-name" id="userName">User</div>
+                <div class="profile-email" id="userEmail">user@example.com</div>
+                <a href="change-password.html" class="btn"><i class="fas fa-key"></i> Change Password</a>
+            </div>
+
+            <div class="profile-content">
+                <h2 data-i18n="profile.title">Personal Information</h2>
+                <form id="profileForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label data-i18n="profile.firstName">First Name</label>
+                            <input type="text" id="firstName" required>
+                        </div>
+                        <div class="form-group">
+                            <label data-i18n="profile.lastName">Last Name</label>
+                            <input type="text" id="lastName" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label data-i18n="profile.email">Email Address</label>
+                            <input type="email" id="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label data-i18n="profile.phone">Phone Number</label>
+                            <input type="tel" id="phone">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label data-i18n="profile.country">Country</label>
+                            <input type="text" id="country">
+                        </div>
+                        <div class="form-group">
+                            <label data-i18n="profile.city">City</label>
+                            <input type="text" id="city">
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="window.history.back()">Cancel</button>
+                        <button type="submit" class="btn"><i class="fas fa-save"></i> Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/translation.js"></script>
+    <script src="/js/auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}');
+            document.getElementById('userName').textContent = userInfo.full_name || 'User';
+            document.getElementById('userEmail').textContent = userInfo.email || 'user@example.com';
+            document.getElementById('firstName').value = (userInfo.full_name || '').split(' ')[0];
+            document.getElementById('email').value = userInfo.email || '';
+
+            document.getElementById('profileForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const token = localStorage.getItem('token') || localStorage.getItem('authToken');
+                try {
+                    const response = await fetch('http://localhost:5000/api/user/profile', {
+                        method: 'PUT',
+                        headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            first_name: document.getElementById('firstName').value,
+                            last_name: document.getElementById('lastName').value,
+                            email: document.getElementById('email').value,
+                            phone: document.getElementById('phone').value,
+                            country: document.getElementById('country').value,
+                            city: document.getElementById('city').value
+                        })
+                    });
+                    if (response.ok) {
+                        alert('Profile updated successfully!');
+                        window.location.reload();
+                    }
+                } catch (error) {
+                    alert('Error updating profile: ' + error.message);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
